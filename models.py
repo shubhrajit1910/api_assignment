@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column,Integer,String,ForeignKey,DateTime
+from sqlalchemy import Column,Integer,String,ForeignKey,DateTime,Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -20,6 +20,9 @@ class DataElement(Base):
     dataset_id=Column(Integer,ForeignKey("datasets.id"),nullable=False)
     name=Column(String)
     data_type=Column(String)
+    nullable=Column(Boolean,default=False)
     created_at=Column(DateTime,default=datetime.now)
 
     dataset=relationship("Dataset",back_populates="elements")
+
+
