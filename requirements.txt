@@ -2,3 +2,4 @@ uvicorn
 fastapi[Standard]
 sqlalchemy
 passlib
+pytest

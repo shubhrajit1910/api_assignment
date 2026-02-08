@@ -59,6 +59,24 @@ async def data_element(db:db_dependency,data_ele:DataElementCreate):
     new_data_element=DataElement(**data_ele.model_dump())
     db.add(new_data_element)
     db.commit()
+    db.refresh(new_data_element)
+    return new_data_element
+
+
+@router.delete("/delete_dataset",tags=["Datasets"])
+async def delete_dataset(db:db_dependency,name:str):
+    DS=db.query(Dataset).filter(Dataset.name==name).first()
+    if not DS:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Dataset not found"
+        )
+    
+    db.delete(DS)
+    db.commit()
+    
+
+
 
 
 
