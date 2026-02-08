@@ -16,11 +16,6 @@ class DatasetRead(DatasetCreate):
     class Config:
         from_attributes=True
 
-
-class DS_DE(DatasetRead):
-    elements:List[DataElementRead]=[]
-
-
 class DataElementCreate(BaseModel):
     name:str
     data_type:str
@@ -33,4 +28,7 @@ class DataElementRead(DataElementCreate):
 
     class Config:
         from_attributes=True
+
+class DS_DE(DatasetRead):
+    elements:List[DataElementRead]=[]
 

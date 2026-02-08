@@ -1,5 +1,5 @@
 uvicorn
 fastapi[Standard]
 sqlalchemy
-passlib
+# passlib
 pytest

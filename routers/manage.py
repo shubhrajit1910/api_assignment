@@ -33,7 +33,7 @@ async def read_specific_dataset(db:db_dependency,id:int):
     return specific_data_element
 
 
-@router.post("/add_dataset",status_code=status.HTTP_201_CREATED,tags=["Datasets"])
+@router.post("/add_dataset",status_code=status.HTTP_201_CREATED,response_model=DatasetRead,tags=["Datasets"])
 async def new_dataset(db:db_dependency,dataset:DatasetCreate):
     existing = db.query(Dataset).filter(Dataset.name == dataset.name).first()
     if existing:
@@ -63,9 +63,9 @@ async def data_element(db:db_dependency,data_ele:DataElementCreate):
     return new_data_element
 
 
-@router.delete("/delete_dataset",tags=["Datasets"])
-async def delete_dataset(db:db_dependency,name:str):
-    DS=db.query(Dataset).filter(Dataset.name==name).first()
+@router.delete("/delete_dataset/{dataset_name}",tags=["Datasets"])
+async def delete_dataset(db:db_dependency,dataset_name:str):
+    DS=db.query(Dataset).filter(Dataset.name==dataset_name).first()
     if not DS:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
