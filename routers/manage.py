@@ -56,6 +56,12 @@ async def data_element(db:db_dependency,data_ele:DataElementCreate):
             status_code=404,
             detail="Dataset not found"
         )
+     existing=db.query(DataElement).filter(DataElement.name==data_ele.name).first()
+    if existing:
+        raise HTTPException(
+            status_code=400,
+            detail="Data element already exist"
+        )
     new_data_element=DataElement(**data_ele.model_dump())
     db.add(new_data_element)
     db.commit()
