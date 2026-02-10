@@ -1,5 +1,7 @@
 uvicorn
 fastapi[Standard]
 sqlalchemy
-# passlib
+passlib
 pytest
+python-multipart
+bcrypt==4.0.1

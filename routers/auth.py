@@ -36,7 +36,7 @@ async def create_user(db:db_dependency,user_req:users_create):
     db.refresh(new_user)
     # return new_user
 
-@router.post("/tokens")
+@router.post("/tokens",tags=["Auth"])
 async def login_for_access(form_data:Annotated[OAuth2PasswordRequestForm,Depends()],db:db_dependency):
     val=authenticate_user(form_data.username,form_data.password,db)
     

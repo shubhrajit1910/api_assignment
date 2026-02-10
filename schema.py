@@ -32,3 +32,8 @@ class DataElementRead(DataElementCreate):
 class DS_DE(DatasetRead):
     elements:List[DataElementRead]=[]
 
+
+class users_create(BaseModel):
+    username:str
+    password:str
+

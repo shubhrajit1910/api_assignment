@@ -25,4 +25,13 @@ class DataElement(Base):
 
     dataset=relationship("Dataset",back_populates="elements")
 
+class User(Base):
+    __tablename__="users"
+
+    id=Column(Integer,primary_key=True,autoincrement=True)
+    username=Column(String,unique=True)
+    hash_password=Column(String)
+
+
+
 

@@ -56,7 +56,7 @@ async def data_element(db:db_dependency,data_ele:DataElementCreate):
             status_code=404,
             detail="Dataset not found"
         )
-     existing=db.query(DataElement).filter(DataElement.name==data_ele.name).first()
+    existing=db.query(DataElement).filter(DataElement.name==data_ele.name).first()
     if existing:
         raise HTTPException(
             status_code=400,
