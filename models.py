@@ -7,7 +7,7 @@ class Dataset(Base):
     __tablename__="datasets"
 
     id=Column(Integer,primary_key=True,index=True,autoincrement=True)
-    name=Column(String,unique=True)
+    name=Column(String,unique=True,index=True)
     description=Column(String)
     created_at=Column(DateTime,default=datetime.now)
 

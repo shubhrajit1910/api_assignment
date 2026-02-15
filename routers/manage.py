@@ -2,6 +2,7 @@ from fastapi import APIRouter,Depends,HTTPException,status
 from database import SessionLocal,get_db
 from sqlalchemy.orm import Session
 from typing import Annotated
+from .auth import get_current_user
 from schema import *
 from models import *
 
@@ -9,6 +10,7 @@ from models import *
 router=APIRouter()
 
 db_dependency=Annotated[Session,Depends(get_db)]
+user_dependency=Annotated[dict,Depends(get_current_user)]
 
 @router.get("/list_datasets",tags=["Datasets"])
 async def read_dataset(db:db_dependency):
@@ -34,7 +36,7 @@ async def read_specific_dataset(db:db_dependency,id:int):
 
 
 @router.post("/add_dataset",status_code=status.HTTP_201_CREATED,response_model=DatasetRead,tags=["Datasets"])
-async def new_dataset(db:db_dependency,dataset:DatasetCreate):
+async def new_dataset(user:user_dependency,db:db_dependency,dataset:DatasetCreate):
     existing = db.query(Dataset).filter(Dataset.name == dataset.name).first()
     if existing:
         raise HTTPException(
@@ -49,7 +51,7 @@ async def new_dataset(db:db_dependency,dataset:DatasetCreate):
 
 
 @router.post("/add_dataelement",status_code=status.HTTP_201_CREATED,tags=["Data Elements"])
-async def data_element(db:db_dependency,data_ele:DataElementCreate):
+async def data_element(user:user_dependency,db:db_dependency,data_ele:DataElementCreate):
     dataset = db.query(Dataset).filter(Dataset.id == data_ele.dataset_id).first()
     if not dataset:
         raise HTTPException(
@@ -69,9 +71,9 @@ async def data_element(db:db_dependency,data_ele:DataElementCreate):
     return new_data_element
 
 
-@router.delete("/delete_dataset/{dataset_name}",tags=["Datasets"])
-async def delete_dataset(db:db_dependency,dataset_name:str):
-    DS=db.query(Dataset).filter(Dataset.name==dataset_name).first()
+@router.delete("/delete_dataset/{dataset_id}",tags=["Datasets"])
+async def delete_dataset(user:user_dependency,db:db_dependency,dataset_id:int):
+    DS=db.query(Dataset).filter(Dataset.id==dataset_id).first()
     if not DS:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
