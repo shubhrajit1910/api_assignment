@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from fastapi import APIRouter,Depends,HTTPException,status
 from passlib.context import CryptContext
 from database import get_db
@@ -15,8 +17,9 @@ router=APIRouter(tags=['auth'])
 
 db_dependency=Annotated[Session,Depends(get_db)]
 
-SECRET_KEY='coder@12345'
-ALGORITHM='HS256'
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 
 bcrypt_context=CryptContext(schemes=['bcrypt'],deprecated='auto')
 oauth2_bearer=OAuth2PasswordBearer(tokenUrl='tokens')
