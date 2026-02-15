@@ -16,10 +16,10 @@ async def read_dataset(db:db_dependency):
     all_dataset=db.query(Dataset).all()
     return all_dataset
 
-@router.get("/read_all_datasets",response_model=list[DS_DE])
-async def read_all(db:db_dependency):
-    all_info=db.query(Dataset).all()
-    return all_info
+# @router.get("/read_all_datasets",response_model=list[DS_DE])
+# async def read_all(db:db_dependency):
+#     all_info=db.query(Dataset).all()
+#     return all_info
 
 @router.post("/add_dataset",status_code=status.HTTP_201_CREATED,response_model=DatasetRead)
 async def new_dataset(db:db_dependency,dataset:DatasetCreate):
